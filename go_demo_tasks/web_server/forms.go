@@ -1,39 +1,39 @@
-// // / forms.go
-// package main
+//forms.go
+package main
 
-// import (
-// 	"fmt"
-// 	"html/template"
-// 	"net/http"
-// )
+import (
+	"fmt"
+	"html/template"
+	"net/http"
+)
 
-// type ContactDetails struct {
-// 	Email   string
-// 	Subject string
-// 	Message string
-// }
+type ContactDetails struct {
+	Email   string
+	Subject string
+	Message string
+}
 
-// func main() {
-// 	tmpl := template.Must(template.ParseFiles("forms.html"))
+func main() {
+	tmpl := template.Must(template.ParseFiles("./forms.html"))
 
-// 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-// 		if r.Method != http.MethodPost {
-// 			tmpl.Execute(w, nil)
-// 			return
-// 		}
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			tmpl.Execute(w, nil)
+			return
+		}
 
-// 		details := ContactDetails{
-// 			Email:   r.FormValue("email"),
-// 			Subject: r.FormValue("subject"),
-// 			Message: r.FormValue("message"),
-// 		}
+		details := ContactDetails{
+			Email:   r.FormValue("email"),
+			Subject: r.FormValue("subject"),
+			Message: r.FormValue("message"),
+		}
 
-// 		// do something with details
-// 		_ = details
-// 		fmt.Println(details)
+		// do something with details
+		_ = details
+		fmt.Println(details)
 
-// 		tmpl.Execute(w, struct{ Success bool }{true})
-// 	})
-
-// 	http.ListenAndServe(":3000", nil)
-// }
+		tmpl.Execute(w, struct{ Success bool }{false})
+	})
+	fmt.Printf("Starting server at port 3000 \n")
+	http.ListenAndServe(":3000", nil)
+}
