@@ -105,6 +105,8 @@ class Circular_Linked_List:
                     current = temp #move current to next using temp, repeating the process till current reaches the head.
                 self.head = None #delete the head. 
 
+    
+
 list1 = Circular_Linked_List()
 # list1.print_list()
 # first = Node(10)
