@@ -174,8 +174,109 @@ class LinkedList:
                 if (curr.next == self.head):
                     break 
 
+    def add_at(self, new_element, index):
+        # create new node with new element
+        # create a temp node to traverse the list
+        newnode = Node(new_element)
+        temp = self.head 
+        no_of_elements = 0
 
+        # finding the number of elements in linked list
+        if (temp != None):
+            no_of_elements += 1
+            temp = temp.next 
+        while (temp != self.head):
+            no_of_elements += 1
+            temp = temp.next 
+        
+        # check if insertion index is valid.
+        if (index < 1 or index > (no_of_elements)):
+            print("Invalid index")
+        elif (index == 1):
+            # if the index is 1, make next of the new node as head and prev of new node as head
+            if (self.head == None):
+                self.head = newnode
+                self.head.next = self.head
+                self.head.prev = self.head 
+            else:
+                while (temp.next != self.head):
+                    temp = temp.next 
+                temp.next = newnode
+                newnode.prev = newnode 
+                newnode.next = self.head 
+                self.head.prev = newnode 
+                self.head = newnode 
+        else:
+            # Else, traverse to the node previous to the given index, make new node next as temp next and temp next as new node 
+            temp = self.head
+            for i in range(1, index-1):
+                temp = temp.next 
+            newnode.next = temp.next 
+            # newnode.next.prev = newnode 
+            newnode.prev = temp 
+            temp.next = newnode 
 
+    def delete_at(self, index):
+        #  create two nodes - temp and nodeToDelete 
+        #  to traverse and track the node to delete
+        node_to_delete = self.head 
+        temp = self.head 
+        no_of_elements = 0 
+
+        # find the number of elements in the list.
+        if (temp != None):
+            no_of_elements += 1
+            temp = temp.next 
+        while (temp != self.head):
+            no_of_elements += 1
+            temp = temp.next 
+        
+        # check if the specified index is valid.
+        if (index < 1 or index > no_of_elements):
+            print("Invalid Position.")
+        elif (index == 1):
+            # if index is 1 and head is the only element in the list, then make it null, else make next of head as new head and adjust links accordingly
+            if (self.head.next == self.head):
+                self.head = None 
+            else:
+                while (temp.next != self.head):
+                    temp = temp.next 
+                self.head = self.head.next
+                temp.next = self.head
+                self.head.prev = temp
+                node_to_delete = None 
+        else:
+            # traverse to the node previous to the given position and delete the given node and adjust links accordingly 
+            temp = self.head 
+            for i in range(1, index -1):
+                temp = temp.next 
+            node_to_delete = temp.next 
+            temp.next = temp.next.next 
+            temp.next.prev = temp 
+            node_to_delete = None 
+
+    def search_element(self, search_element):
+        # create a temp node pointing to head
+        temp = self.head
+        flag = False
+        i = 0 
+        # if the temp node is not null check the node value with searchValue, if found update variables and break the loop,  else continue searching till temp node is not head
+        if (temp != None):
+            while True:
+                i += 1
+                if (temp.data == search_element):
+                    flag = True
+                    break 
+                temp = temp.next 
+                if (temp == self.head):
+                    break 
+            if (flag == True):
+                print(f"{search_element} is found at index = {i}")
+            else:
+                print(f"{search_element} is not found in the linked list.") 
+        else:
+            # If the temp node is null at the start, the list is empty
+            print("The list is empty.")
 
 
 list1 = LinkedList()
@@ -184,7 +285,7 @@ list1.prepend(10)
 list1.prepend(20)
 list1.prepend(30) 
 list1.append(100)
-list1.print_list()
+# list1.print_list()
 # list1.count_nodes() 
 # list1.delete_at_start()
 # list1.print_list()
@@ -193,7 +294,8 @@ list1.print_list()
 # list1.count_nodes()
 # list1.delete_all_nodes()
 # list1.print_list()
-list1.reverseList()
+# list1.add_at(101, 5)
+# list1.print_list()
+# list1.delete_at(2)
 list1.print_list()
-list1.sortList()
-list1.print_list()
+list1.search_element(202)
