@@ -204,6 +204,134 @@ func(cdll *circularDoublyLinkedList) sortList(){
 	}
 }
 
+func(cdll *circularDoublyLinkedList) add_at(data int, index int){
+	// create new node with new element
+	// create a temp node to traverse the list
+	new_node := &node{}
+	new_node.data = data 
+	new_node.prev = nil 
+	new_node.next = nil 
+	temp := cdll.head
+	no_of_elements := 0 
+
+	// finding the number of elements in linked list
+	if (temp != nil){
+		no_of_elements += 1
+		temp = temp.next 
+	}
+	for(temp != cdll.head){
+		no_of_elements += 1
+		temp = temp.next 
+	}
+
+	// check if insertion index is valid.
+	if (index < 1 || index > (no_of_elements)){
+		fmt.Println("Invalid index") 
+	}else if (index == 1){
+		// if the index is 1, make next of the new node as head and prev of new node as head
+		if cdll.head == nil{
+			cdll.head = new_node 
+			cdll.head.next = cdll.head
+			cdll.head.prev = cdll.head
+		}else{
+			for (temp.next != cdll.head){
+				temp = temp.next 
+			}
+			temp.next = new_node
+			new_node.prev = new_node
+			new_node.next = cdll.head 
+			cdll.head.prev = new_node
+			cdll.head = new_node 
+		}
+	}else{
+		// Else, traverse to the node previous to the given index, make new node next as temp next and temp next as new node 
+		temp := cdll.head
+		for i := 1; i < index-1; i++{
+			temp = temp.next 
+		}
+		new_node.next = temp.next 
+		new_node.prev = temp 
+		temp.next = new_node 
+	}
+}
+
+func (cdll *circularDoublyLinkedList) delete_at(index int){
+	// create two nodes - temp and nodeToDelete 
+	// to traverse and track the node to delete
+	//node_to_delete := cdll.head 
+	temp := cdll.head 
+	no_of_elements := 0
+
+	// find the number of elements in the list.
+	if (temp != nil){
+		no_of_elements += 1
+		temp = temp.next 
+	}
+	for (temp != cdll.head){
+		no_of_elements += 1
+		temp = temp.next 
+	}
+
+	// check if the specified index is valid.
+	if (index < 1 || (index > no_of_elements)){
+		fmt.Println("Invalid Index")
+	}else if (index == 1){
+		// if index is 1 and head is the only element in the list, then make it null, else make next of head as new head and adjust links accordingly
+		if (cdll.head.next == cdll.head){
+			cdll.head = nil 
+		}else{
+			for (temp.next != cdll.head){
+				temp = temp.next 
+			}
+			cdll.head = cdll.head.next 
+			temp.next = cdll.head 
+			cdll.head.prev = temp 
+			//node_to_delete = nil 
+		}
+	}else{
+		// traverse to the node previous to the given position and delete the given node and adjust links accordingly
+		temp := cdll.head 
+		for i:= 1; i < (index-1); i++{
+			temp =  temp.next 
+		} 
+		//node_to_delete = temp.next 
+		temp.next = temp.next.next 
+		temp.next.prev = temp 
+		//node_to_delete = nil 
+	}
+}
+
+func (cdll *circularDoublyLinkedList) search_element(search_element int){
+	// create a temp node pointing to head
+	temp := cdll.head
+	flag := false 
+	i := 0
+	// if the temp node is not null check the node value with searchValue,
+	// if found update variables and break the loop,  else continue searching till temp node is not head
+	if (temp != nil){
+		for true{
+			i += 1
+			if (temp.data == search_element){
+				flag = true 
+				break 
+			}
+			temp = temp.next 
+			if (temp == cdll.head){
+				break 
+			}
+		}
+		if (flag == true){
+			fmt.Printf("%d is found at index = %d", search_element, i)
+		}else{
+			fmt.Printf("%d is not found in the linked list", search_element)  
+		}
+	}else{
+		// If the temp node is null at the start, the list is empty
+		fmt.Println("The list is empty.")
+	}
+}
+
+
 func main(){
 	ll := circularDoublyLinkedList{}
 	node1 := &node{data: 10}
@@ -215,8 +343,8 @@ func main(){
 	ll.append(node1)
 	ll.prepend(node2)   
 	ll.print_list()
-	ll.sortList()
-	ll.print_list()
+	// ll.sortList()
+	// ll.print_list()
 	//ll.delete_all_nodes()
 	//ll.print_list()
 	// ll.print_list()
@@ -228,4 +356,9 @@ func main(){
 	// ll.count_nodes()
 	// ll.reverseList()
 	// ll.print_list()
-} 
+	//ll.add_at(100, 4)
+	//ll.print_list()
+	//ll.search_element(101)
+	ll.delete_at(4)
+	ll.print_list()
+}
