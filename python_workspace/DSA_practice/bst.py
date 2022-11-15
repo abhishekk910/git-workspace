@@ -5,6 +5,8 @@ class BST:
         self.right = None 
 
     def insert(self, data):
+        if self.key == data:
+            return 
         if self.key is None:
             self.key = data 
             return 
@@ -22,18 +24,29 @@ class BST:
                 self.right = BST(data)
 
     def search(self, data):
+<<<<<<< HEAD
         if self.key == data:
             print("Node is found in Binary Tree")
+=======
+        if data == self.key:
+            print("Key is present in the tree")
+>>>>>>> e9f316b99a290945f73b2db12264b8438ba70a84
             return 
         if data < self.key:
             if self.left:
                 self.left.search(data)
             else:
+<<<<<<< HEAD
                 print("Node is not present in tree")
+=======
+                print("Key is not present in tree")
+                return
+>>>>>>> e9f316b99a290945f73b2db12264b8438ba70a84
         else:
             if self.right:
                 self.right.search(data)
             else:
+<<<<<<< HEAD
                 print("Node is not present in tree")
 
     def delete(self, data, curr):
@@ -75,10 +88,23 @@ class BST:
             self.key = node.key
             self.right = self.right.delete(node.key, curr)
         return self 
+=======
+                print("Key is not present in tree")
+                return
+
+    def preorder(self):
+        print(self.key, end=" ")
+        if self.left:
+            self.left.preorder()
+        if self.right:
+            self.right.preorder()
+        
+>>>>>>> e9f316b99a290945f73b2db12264b8438ba70a84
 
     def inorder(self):
         if self.left:
             self.left.inorder()
+<<<<<<< HEAD
         print(self.key, end=' ')
         if self.right:
             self.right.inorder()
@@ -87,11 +113,15 @@ class BST:
         print(self.key, end=' ')
         if self.left:
             self.left.inorder()
+=======
+        print(self.key, end=" ")
+>>>>>>> e9f316b99a290945f73b2db12264b8438ba70a84
         if self.right:
             self.right.inorder()
 
     def postorder(self):
         if self.left:
+<<<<<<< HEAD
             self.left.inorder()
         if self.right:
             self.right.inorder()
@@ -135,3 +165,22 @@ root.max_node()
 # root.delete(10)
 # root.preorder()
 # root.search(200)
+=======
+            self.left.postorder()
+        if self.right:
+            self.right.postorder()
+        print(self.key, end=" ")
+
+root = BST(10)
+# list1 = [100, 20, 5, 10, 150, 25, 120, 125, 200]
+list1 = [6, 3, 1, 6, 7, 3, 98, 97, 101]
+# list1 = [150, 70, 5, 25, 60, 100]
+for i in list1:
+    root.insert(i)
+root.preorder()
+print()
+root.inorder()
+print()
+root.postorder()
+print()
+>>>>>>> e9f316b99a290945f73b2db12264b8438ba70a84
